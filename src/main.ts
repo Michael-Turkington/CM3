@@ -12,8 +12,8 @@ async function initializeCamera() {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     // Adjust canvas display size based on the device
-    canvas.style.width = isMobile ? '350px' : '1080px';
-    canvas.style.height = isMobile ? '605px' : '607px';
+    canvas.style.width = isMobile ? '290px' : '1080px';
+    canvas.style.height = isMobile ? '501px' : '607px';
 
     const session = await cameraKit.createSession({ liveRenderTarget: canvas });
     session.events.addEventListener('error', (event) => {
@@ -53,3 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Load camera button not found');
     }
 });
+
+// Wait for the DOM to be fully loaded before attaching event listeners
+// Wait for the DOM to be fully loaded before attaching event listeners
