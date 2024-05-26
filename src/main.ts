@@ -42,40 +42,14 @@ async function refreshCamera() {
         },
     };
 
-<<<<<<< HEAD
     try {
         globalStream = await navigator.mediaDevices.getUserMedia(constraints);
         await initializeSession(globalStream, cameraTypeSelect.value);
     } catch (error) {
         console.error('Error accessing the camera', error);
-=======
-    // Adjust canvas display size based on the device
-    canvas.style.width = isMobile ? '250px' : '1080px';
-    canvas.style.height = isMobile ? '445px' : '607px';
-    
-
-    const session = await cameraKit.createSession({ liveRenderTarget: canvas });
-    session.events.addEventListener('error', (event) => {
-        console.log('Lens error:', event.detail.error);
-    });
-
-    const facingMode = isMobile ? "user" : "user";
-    const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: facingMode }
-    });
-    const source = createMediaStreamSource(stream, { transform: Transform2D.MirrorX, cameraType: 'user' });
-    await session.setSource(source);
-
-    // Adjust render size based on the device
-    if (isMobile) {
-        await source.setRenderSize(1170, 2022);
-    } else {
-        await source.setRenderSize(1920, 1080);
->>>>>>> origin/main
     }
 }
 
-<<<<<<< HEAD
 async function initializeSession(stream, cameraType) {
     const apiToken = "eyJhbGciOiJIUzI1NiIsImtpZCI6IkNhbnZhc1MyU0hNQUNQcm9kIiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYW52YXMtY2FudmFzYXBpIiwiaXNzIjoiY2FudmFzLXMyc3Rva2VuIiwibmJmIjoxNzExNjAxNjAyLCJzdWIiOiIyY2ZkMzFiZC1lMWFmLTQ1N2QtYWJmYy1hOThhNzkzMzRlMWZ-U1RBR0lOR34wOTM2YTE4NC00NjJiLTQ5YjgtOGZjYi05YzAwMDNmMmUwNzUifQ.xEpM3aiqXNU6uIM6w70BfsWag42WdXt3wnGv-hckOUk";
     const cameraKit = await bootstrapCameraKit({ apiToken });
@@ -91,11 +65,7 @@ async function initializeSession(stream, cameraType) {
     await source.setRenderSize(1920, 1080);
 
     const lensId = "1bce51d2-98c9-48d4-bb81-8f935b17fd12";
-=======
-    const lensId = isMobile ? "7b594534-37c6-4909-80af-cf3117f4601e" : "7b594534-37c6-4909-80af-cf3117f4601e";
->>>>>>> origin/main
-    const groupId = "663f5bb4-e694-4260-862f-8979394d866a";
-    const lens = await cameraKit.lensRepository.loadLens(lensId, groupId);
+    const lens = await cameraKit.lensRepository.loadLens(lensId);
     await session.applyLens(lens);
     await session.play();
 
@@ -204,12 +174,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     await listCameras();
     document.getElementById('refreshCamera')?.addEventListener('click', refreshCamera);
     document.getElementById('refreshCamera')?.addEventListener('click', setupDeviceEvents);
-    document.getElementById('get-orientation').addEventListener('click', getOrientation);
+    document.getElementById('get-orientation')?.addEventListener('click', getOrientation);
     setupRecording();
     setupDeviceEvents();
 });
 
-<<<<<<< HEAD
 function setupOrientationEvent() {
     window.addEventListener("deviceorientation", function (e) {
         let requestBtn = document.querySelector("#get-orientation");
@@ -221,8 +190,3 @@ function setupOrientationEvent() {
         document.getElementById('orientation').textContent = `Orientation: ${Math.abs(e.beta) > Math.abs(e.gamma) ? "portrait" : "landscape"}`;
     });
 }
-=======
-// Wait for the DOM to be fully loaded before attaching event listeners
->>>>>>> origin/main
-
-
