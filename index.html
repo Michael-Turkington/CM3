@@ -1,20 +1,66 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Camera Kit</title>
     <style>
-
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        #my-canvas {
+            max-width: 60%;
+            height: auto;
+            border: 1px solid #ccc;
+        }
+        #videoSource, #facingMode, #cameraType, button, a {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        a[style*="display: none;"] {
+            display: none !important;
+        }
+        /* @media (max-width: 768px) {
+            #my-canvas {
+                width: 90%;
+            }
+            #videoSource, #facingMode, #cameraType, button, a {
+                font-size: 14px;
+            } */
+        /* } */
     </style>
-    </head>
-    <body>
-      <button id="loadCameraButton">Load Camera</button>
-      <p>This is a paragraph.</p>
-
-      <canvas id="my-canvas"></canvas>
-      <script type="module" src="/src/main.ts"></script>
-    </body>
+</head>
+<body>
+    <select id="facingMode">
+        <option value="environment">Environment</option>
+        <option value="user">User</option>
+    </select>
+    <select id="cameraType">
+        <option value="back">Back</option>
+        <option value="front">Front</option>
+    </select>
+    <select id="videoSource"></select>
+    <button id="refreshCamera">Refresh Camera</button>
+    <button id="startRecording">Start Recording</button>
+    <button id="stopRecording" disabled>Stop Recording</button>
+    <a id="downloadRecording" style="display: none;" download="AR_Content.webm">Download Recording</a>
+    <canvas id="my-canvas"></canvas>
+    <button id="get-orientation">Get Device Orientation</button>
+    <div id="alpha">Alpha: Waiting...</div>
+    <div id="beta">Beta: Waiting...</div>
+    <div id="gamma">Gamma: Waiting...</div>
+    <div id="orientation">Orientation: Waiting...</div>
+    <script type="module" src="src/main.ts"></script>
+    <!-- <script type="module" src="/server.js"></script> Ensure the path to your JavaScript file is correct --> -->
+</body>
 </html>
- 

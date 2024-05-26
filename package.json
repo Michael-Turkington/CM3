@@ -17,6 +17,7 @@
     "webpack-dev-server": "^5.0.4"
   },
   "dependencies": {
-    "@snap/camera-kit": "^0.16.2"
+    "@snap/camera-kit": "^0.16.2",
+    "ws": "^8.17.0"
   }
 }
