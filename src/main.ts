@@ -224,3 +224,5 @@ function setupOrientationEvent() {
 =======
 // Wait for the DOM to be fully loaded before attaching event listeners
 >>>>>>> origin/main
+
+
