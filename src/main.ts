@@ -17,6 +17,13 @@ async function listCameras() {
         option.text = device.label || `Camera ${index + 1}`;
         videoSourceSelect.appendChild(option);
     });
+
+    if (videoDevices.length > 0) {
+        videoSourceSelect.selectedIndex = 0; // Select the first camera by default
+        await refreshCamera(); // Automatically refresh camera to use the selected camera
+    } else {
+        console.warn('No video input devices found.');
+    }
 }
 
 async function refreshCamera() {
@@ -64,7 +71,7 @@ async function initializeSession(stream, cameraType) {
     await session.setSource(source);
     await source.setRenderSize(1920, 1080);
 
-    const lensId = "1bce51d2-98c9-48d4-bb81-8f935b17fd12";
+    const lensId = "eebe5e48-9c68-4da9-95bc-997384e8081c";
     const groupId = "663f5bb4-e694-4260-862f-8979394d866a"; // Define the correct groupId here
     const lens = await cameraKit.lensRepository.loadLens(lensId, groupId);
     await session.applyLens(lens);
@@ -132,55 +139,6 @@ function setupRecording() {
     });
 }
 
-//Ignore these Websockets For now.
-function setupDeviceEvents() {
-    const ws = new WebSocket('ws://localhost:8080');
-
-    ws.onopen = function() {
-        console.log('WebSocket connection established');
-    };
-
-    ws.onerror = function(error) {
-        console.error("WebSocket Error: ", error);
-    };
-
-    window.addEventListener("deviceorientation", function (e) {
-        const orientationData = {
-            type: 'orientation',
-            alpha: e.alpha,
-            beta: e.beta,
-            gamma: e.gamma
-        };
-        if (ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify(orientationData));
-            window.dispatchEvent(new CustomEvent('orientationData', { detail: orientationData }));
-        }
-    });
-
-    window.addEventListener("devicemotion", function (e) {
-        const motionData = {
-            type: 'motion',
-            acceleration: e.acceleration,
-            accelerationIncludingGravity: e.accelerationIncludingGravity,
-            rotationRate: e.rotationRate,
-            interval: e.interval
-        };
-        if (ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify(motionData));
-            window.dispatchEvent(new CustomEvent('motionData', { detail: motionData }));
-        }
-    });
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
-    await listCameras();
-    document.getElementById('refreshCamera')?.addEventListener('click', refreshCamera);
-    document.getElementById('refreshCamera')?.addEventListener('click', setupDeviceEvents);
-    document.getElementById('get-orientation')?.addEventListener('click', getOrientation);
-    setupRecording();
-    //setupDeviceEvents(); (WebSockets Function - Ignored)
-});
-
 function setupOrientationEvent() {
     window.addEventListener("deviceorientation", function (e) {
         let requestBtn = document.querySelector("#get-orientation");
@@ -192,3 +150,10 @@ function setupOrientationEvent() {
         document.getElementById('orientation').textContent = `Orientation: ${Math.abs(e.beta) > Math.abs(e.gamma) ? "portrait" : "landscape"}`;
     });
 }
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await listCameras();
+    document.getElementById('refreshCamera')?.addEventListener('click', refreshCamera);
+    document.getElementById('get-orientation')?.addEventListener('click', getOrientation);
+    setupRecording();
+});
