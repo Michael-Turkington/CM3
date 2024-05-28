@@ -65,7 +65,8 @@ async function initializeSession(stream, cameraType) {
     await source.setRenderSize(1920, 1080);
 
     const lensId = "1bce51d2-98c9-48d4-bb81-8f935b17fd12";
-    const lens = await cameraKit.lensRepository.loadLens(lensId);
+    const groupId = "663f5bb4-e694-4260-862f-8979394d866a"; // Define the correct groupId here
+    const lens = await cameraKit.lensRepository.loadLens(lensId, groupId);
     await session.applyLens(lens);
     await session.play();
 
@@ -102,9 +103,9 @@ function setupRecording() {
         const stream = canvas.captureStream(30);
         let options = {};
         if (MediaRecorder.isTypeSupported('video/mp4')) {
-            options = { mimeType: 'video/mp4', bitsPerSecond: 1000000 };
+            options = { mimeType: 'video/mp4', bitsPerSecond: 20000000 };
         } else if (MediaRecorder.isTypeSupported('video/webm; codecs=vp9')) {
-            options = { mimeType: 'video/webm; codecs=vp9', bitsPerSecond: 1000000 };
+            options = { mimeType: 'video/webm; codecs=vp9', bitsPerSecond: 20000000 };
         } else {
             console.error('Neither MP4 nor VP9 codecs are supported.');
         }
@@ -131,6 +132,7 @@ function setupRecording() {
     });
 }
 
+//Ignore these Websockets For now.
 function setupDeviceEvents() {
     const ws = new WebSocket('ws://localhost:8080');
 
@@ -176,7 +178,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('refreshCamera')?.addEventListener('click', setupDeviceEvents);
     document.getElementById('get-orientation')?.addEventListener('click', getOrientation);
     setupRecording();
-    setupDeviceEvents();
+    //setupDeviceEvents(); (WebSockets Function - Ignored)
 });
 
 function setupOrientationEvent() {
